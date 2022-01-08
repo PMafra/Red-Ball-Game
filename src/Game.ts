@@ -109,10 +109,16 @@ export class Game {
         }
     }
 
+    private getRandomInt (max: number, min: number) {
+        const n = Math.ceil(Math.random() * max);
+        if (n < min) return min;
+        return n;
+    }
+
     addNewEnemy () {
         if (!this.enemyInterval) {
             this.enemyInterval = setInterval(() => {
-                this.enemies.push(new Enemy(this.context, 15, 'red', 0, 0, 5, 5));
+                this.enemies.push(new Enemy(this.context, this.getRandomInt(20, 5), 'red', 0, 0, this.getRandomInt(5, 1), this.getRandomInt(5, 1)));
             }, 3000)
         }
     }
