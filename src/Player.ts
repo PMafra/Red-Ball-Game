@@ -2,24 +2,15 @@ import { Circle } from "./Circle";
 
 export class Player extends Circle {
 
-    x: number;
-    y: number;
-
     constructor (context: any, radius:number, color:string, x: number, y: number) {
-        super({context, radius, color});
-        this.x = x;
-        this.y = y;
+        super({context, radius, color, x, y});
     }
 
     draw(x: number, y: number){
         super.draw(x, y);
     }
 
-    increaseSize (ballSizeInterval: any) {
-        if (!ballSizeInterval) {
-            ballSizeInterval = setInterval(() => {
-                this.radius += 1
-            },3000)
-        }
+    increasePlayerSize () {
+        this.radius += 1;
     }
 }

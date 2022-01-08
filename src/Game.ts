@@ -37,15 +37,15 @@ export class Game {
         this.setupFirstEnemy();
     }
 
-    setupGame () {
+    private setupGame () {
         this.canvas.width = this.screenWidth;
         this.canvas.height = this.screenHeight;
     }
 
-    setupPlayer () {
+    private setupPlayer () {
         this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
     }
-    setupFirstEnemy () {
+    private setupFirstEnemy () {
         this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
     }
 
@@ -89,21 +89,17 @@ export class Game {
         document.querySelector('.score').innerHTML = String(this.score);
     }
 
-    increasePlayerSize () {
-        this.player.radius += 1;
-    }
-
     turn () {
         if (!this.turnInterval) {
             this.turnInterval = setInterval(() => {
-                this.increasePlayerSize();
+                this.player.increasePlayerSize();
                 this.increaseScore();
                 this.addNewEnemy();
             }, 3000)
         }
     }
 
-    private getRandomInt (max: number, min: number) {
+    getRandomInt (max: number, min: number) {
         const n = Math.ceil(Math.random() * max);
         if (n < min) return min;
         return n;

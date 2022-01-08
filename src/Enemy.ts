@@ -2,15 +2,11 @@ import { Circle } from "./Circle";
 
 export class Enemy extends Circle {
 
-    x: number;
-    y: number;
     xSpeed: number;
     ySpeed: number;
     
     constructor (context: any, radius:number, color:string, x: number, y: number, xSpeed: number, ySpeed: number) {
-        super({context, radius, color});
-        this.x = x;
-        this.y = y;
+        super({context, radius, color, x, y});
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }

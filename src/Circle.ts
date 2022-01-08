@@ -3,14 +3,18 @@ export abstract class Circle {
     context: any;
     radius: number;
     color: string;
+    x: number;
+    y: number;
 
-    constructor ({context, radius, color}: CircleInterface) {
+    constructor ({context, radius, color, x, y}: CircleInterface) {
         this.context = context;
         this.radius = radius;
         this.color = color;
+        this.x = x;
+        this.y = y;
     }
 
-    draw(x: number,y: number) {
+    protected draw(x: number,y: number) {
         this.context.beginPath();
         this.context.arc(x,y,this.radius,0,2*Math.PI, true);
         this.context.fillStyle = this.color;
@@ -22,4 +26,6 @@ interface CircleInterface {
     color: string;
     radius: number;
     context: any;
+    x: number;
+    y: number;
 }
