@@ -9,9 +9,7 @@ export class Game {
     context: any;
 
     gameLoopInterval: any;
-    ballSizeInterval: any;
-    enemyInterval: any;
-    scoreInterval: any;
+    turnInterval: any;
 
     score: number;
     FPS: number;
@@ -26,9 +24,7 @@ export class Game {
         this.context = context;
 
         this.gameLoopInterval;
-        this.ballSizeInterval;
-        this.enemyInterval;
-        this.scoreInterval;
+        this.turnInterval;
 
         this.score = 0;
         this.FPS = 60;
@@ -54,9 +50,7 @@ export class Game {
     }
 
     reset () {
-        this.scoreInterval = '';
-        this.enemyInterval = '';
-        this.ballSizeInterval = '';
+        this.turnInterval = '';
         this.score = 0;
         document.querySelector('.score').innerHTML = String(this.score);
         this.setupFirstEnemy();
@@ -65,9 +59,7 @@ export class Game {
 
     end () {
         clearInterval(this.gameLoopInterval);
-        clearInterval(this.scoreInterval);
-        clearInterval(this.enemyInterval);
-        clearInterval(this.ballSizeInterval);
+        clearInterval(this.turnInterval);
         this.clearScreen();
         const isAgain = confirm(`You lost. \nScore: ${this.score} \nAgain?`);
         if (isAgain) {
@@ -93,19 +85,21 @@ export class Game {
     }
 
     increaseScore () {
-        if (!this.scoreInterval) {
-            this.scoreInterval = setInterval(() => {
-                this.score += 5;
-                document.querySelector('.score').innerHTML = String(this.score);
-            }, 3000)
-        }
+        this.score += 5;
+        document.querySelector('.score').innerHTML = String(this.score);
     }
 
     increasePlayerSize () {
-        if (!this.ballSizeInterval) {
-            this.ballSizeInterval = setInterval(() => {
-                this.player.radius += 1
-            },3000)
+        this.player.radius += 1;
+    }
+
+    turn () {
+        if (!this.turnInterval) {
+            this.turnInterval = setInterval(() => {
+                this.increasePlayerSize();
+                this.increaseScore();
+                this.addNewEnemy();
+            }, 3000)
         }
     }
 
@@ -116,20 +110,14 @@ export class Game {
     }
 
     addNewEnemy () {
-        if (!this.enemyInterval) {
-            this.enemyInterval = setInterval(() => {
-                this.enemies.push(new Enemy(this.context, this.getRandomInt(20, 5), 'red', 0, 0, this.getRandomInt(5, 1), this.getRandomInt(5, 1)));
-            }, 3000)
-        }
+        this.enemies.push(new Enemy(this.context, this.getRandomInt(20, 5), 'red', 0, 0, this.getRandomInt(5, 1), this.getRandomInt(5, 1)));
     }
 
     gameLoop () {
         this.clearScreen();
-        this.addNewEnemy();
         this.player.draw(this.player.x, this.player.y)
-        this.increasePlayerSize();
         this.moveEnemy();
-        this.increaseScore();
+        this.turn();
     }
 
     updatePlayerPosition (event: any) {
