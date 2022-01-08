@@ -109,9 +109,17 @@ export class Game {
         }
     }
 
+    addNewEnemy () {
+        if (!this.enemyInterval) {
+            this.enemyInterval = setInterval(() => {
+                this.enemies.push(new Enemy(this.context, 15, 'red', 0, 0, 5, 5));
+            }, 3000)
+        }
+    }
+
     gameLoop () {
         this.clearScreen();
-        //addNewEnemy();
+        this.addNewEnemy();
         this.player.draw(this.player.x, this.player.y)
         this.increasePlayerSize();
         this.moveEnemy();
