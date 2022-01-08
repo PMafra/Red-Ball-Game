@@ -11,10 +11,24 @@
             background-color: black;
             margin: 0;
         }
+        .score {
+            position: fixed;
+            z-index: 1;
+            top: 50px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            color: #ffffff;
+            font-size: 25px;
+        }
+
+
     </style>
 </head>
 <body>
-    <canvas id="canvas" onmousemove="updatePlayerPosition(event)"></canvas>
+    <canvas id="canvas" onmousemove="updatePlayerPosition(event)">
+    </canvas>
+    <div class="score">0</div>
 
     <script>
         const canvas = document.querySelector('#canvas');
@@ -26,6 +40,8 @@
         let gameLoopInterval;
         let ballSizeInterval;
         let enemyInterval;
+        let scoreInterval;
+        let score = 0;
 
         const FPS = 60;
 
@@ -130,18 +146,53 @@
             }
         }
 
+        const increaseScore = () => {
+            if (!scoreInterval) {
+                scoreInterval = setInterval(() => {
+                    score += 5;
+                    document.querySelector('.score').innerHTML = score;
+                }, 3000)
+            }
+        }
+
         const gameLoop = () => {
             clearScreen();
+            addNewEnemy();
             drawPlayer();
             increasePlayerSize();
             moveEnemy();
-            addNewEnemy();
+            increaseScore();
+        }
+
+        const resetGame = () => {
+            scoreInterval = '';
+            enemyInterval = '';
+            ballSizeInterval = '';
+            score = 0;
+            document.querySelector('.score').innerHTML = score;
+            enemies = [];
+            enemies.push({
+                name: 'red ball',
+                x: 0,
+                y: 0,
+                color: 'red',
+                radius: getRandomInt(20, 5),
+                xSpeed: getRandomInt(5, 1),
+                ySpeed: getRandomInt(5, 1),
+            });
+            startGame();
         }
 
         const endGame = () => {
             clearInterval(gameLoopInterval);
+            clearInterval(scoreInterval);
+            clearInterval(enemyInterval);
+            clearInterval(ballSizeInterval);
             clearScreen();
-            alert('You lost');
+            const isAgain = confirm(`You lost. \nScore: ${score} \nAgain?`);
+            if (isAgain) {
+                resetGame();
+            }
         }
 
         const startGame = () => {
