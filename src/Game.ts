@@ -50,7 +50,36 @@ export class Game {
         this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
     }
     setupFirstEnemy () {
-        this.enemies = [new Enemy(this.context, 15, 'red', 10, 10, 5, 5)];
+        this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
+    }
+
+    reset () {
+        this.scoreInterval = '';
+        this.enemyInterval = '';
+        this.ballSizeInterval = '';
+        this.score = 0;
+        document.querySelector('.score').innerHTML = String(this.score);
+        this.setupFirstEnemy();
+        this.start();
+    }
+
+    end () {
+        clearInterval(this.gameLoopInterval);
+        clearInterval(this.scoreInterval);
+        clearInterval(this.enemyInterval);
+        clearInterval(this.ballSizeInterval);
+        this.clearScreen();
+        const isAgain = confirm(`You lost. \nScore: ${this.score} \nAgain?`);
+        if (isAgain) {
+            this.reset();
+        }
+    }
+
+    checkForColision (enemyInArr: Enemy) {
+        const distance = Math.sqrt(Math.pow(this.player.x - enemyInArr.x, 2) + Math.pow(this.player.y - enemyInArr.y, 2));
+        if (distance <= (enemyInArr.radius + this.player.radius)) {
+            this.end();
+        }
     }
 
     moveEnemy () {
@@ -58,7 +87,7 @@ export class Game {
             enemyInArr.draw(enemyInArr.x, enemyInArr.y);
             enemyInArr.x += enemyInArr.xSpeed;
             enemyInArr.y += enemyInArr.ySpeed;
-            //checkForColision(enemyInArr);
+            this.checkForColision(enemyInArr);
             enemyInArr.checkEnemyOutOfScreen(this.screenWidth, this.screenHeight);
         })
     }
