@@ -25,6 +25,7 @@
         const context = canvas.getContext('2d');
         let gameLoopInterval;
         let ballSizeInterval;
+        let enemyInterval;
 
         const FPS = 60;
 
@@ -41,9 +42,10 @@
             y: 0,
             color: 'red',
             radius: 15,
-            xSpeed: 5,
-            ySpeed: 5,
+            xSpeed: 0.001,
+            ySpeed: 0.001,
         }
+        let enemies = [];
 
         const drawCircle = ({context, color,x,y,radius,startAngle,endAngle}) => {
             context.beginPath();
@@ -61,24 +63,8 @@
             player.y = event.clientY;
         }
 
-        const updateEnemyPosition = () => {
-            enemy.x += enemy.xSpeed;
-            enemy.y += enemy.ySpeed;
-        }
-
         const drawPlayer = () => {
             drawCircle({context,color: player.color, x: player.x - 10,y: player.y - 10,radius: player.radius,startAngle: 0, endAngle: 2*Math.PI});
-        }
-
-        const drawEnemy = () => {
-            drawCircle({context,color: enemy.color, x: enemy.x - 10,y: enemy.y - 10,radius: enemy.radius,startAngle: 0, endAngle: 2*Math.PI});
-        }
-
-        const checkForColision = () => {
-            const distance = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
-            if (distance <= (enemy.radius + player.radius)) {
-                endGame();
-            }
         }
 
         const increasePlayerSize = () => {
@@ -86,6 +72,31 @@
                 ballSizeInterval = setInterval(() => {
                     player.radius += 1
                 },3000)
+            }
+        }
+
+
+
+
+
+        const drawEnemy = () => {
+            enemies.push(enemy);
+            enemies.forEach((enemyInArr) => {
+                drawCircle({context,color: enemyInArr.color, x: enemyInArr.x - 10,y: enemyInArr.y - 10,radius: enemyInArr.radius,startAngle: 0, endAngle: 2*Math.PI});
+            });
+        }
+
+        const updateEnemyPosition = () => {
+            enemies.forEach((enemyInArr) => {
+                enemyInArr.x += enemyInArr.xSpeed;
+                enemyInArr.y += enemyInArr.ySpeed;
+            });
+        }
+
+        const checkForColision = () => {
+            const distance = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
+            if (distance <= (enemy.radius + player.radius)) {
+                endGame();
             }
         }
 
@@ -99,17 +110,26 @@
         }
 
         const addNewEnemy = () => {
-
+            if (!enemyInterval) {
+                enemyInterval = setInterval(() => {
+                    drawEnemy();
+                },1000)
+            }
         }
+
+
+
+
 
         const gameLoop = () => {
             clearScreen();
             drawEnemy();
             drawPlayer();
             increasePlayerSize();
-            checkEnemyOutOfScreen();
+            //checkEnemyOutOfScreen();
             updateEnemyPosition();
-            checkForColision();
+            //checkForColision();
+            addNewEnemy();
         }
 
         const endGame = () => {
