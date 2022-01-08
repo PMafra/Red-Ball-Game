@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Ball</title>
+
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" onmousemove="updatePlayerPosition(event)"></canvas>
+
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        canvas.width = screenWidth;
+        canvas.height = screenHeight;
+        const context = canvas.getContext('2d');
+        let gameLoopInterval;
+        let ballSizeInterval;
+
+        const FPS = 60;
+
+        let player = {
+            name: 'blue ball',
+            x: screenWidth / 2,
+            y: screenHeight / 2,
+            color: 'blue',
+            radius: 25,
+        }
+        let enemy = {
+            name: 'red ball',
+            x: 0,
+            y: 0,
+            color: 'red',
+            radius: 15,
+            xSpeed: 5,
+            ySpeed: 5,
+        }
+
+        const drawCircle = ({context, color,x,y,radius,startAngle,endAngle}) => {
+            context.beginPath();
+            context.arc(x,y,radius,startAngle,endAngle, true);
+            context.fillStyle = color;
+            context.fill();
+        }
+
+        const clearScreen = () => {
+            context.clearRect(0,0,canvas.width,canvas.height);
+        }
+
+        const updatePlayerPosition = (event) => {
+            player.x = event.clientX;
+            player.y = event.clientY;
+        }
+
+        const updateEnemyPosition = () => {
+            enemy.x += enemy.xSpeed;
+            enemy.y += enemy.ySpeed;
+        }
+
+        const drawPlayer = () => {
+            drawCircle({context,color: player.color, x: player.x - 10,y: player.y - 10,radius: player.radius,startAngle: 0, endAngle: 2*Math.PI});
+        }
+
+        const drawEnemy = () => {
+            drawCircle({context,color: enemy.color, x: enemy.x - 10,y: enemy.y - 10,radius: enemy.radius,startAngle: 0, endAngle: 2*Math.PI});
+        }
+
+        const checkForColision = () => {
+            const distance = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
+            if (distance <= (enemy.radius + player.radius)) {
+                endGame();
+            }
+        }
+
+        const increasePlayerSize = () => {
+            if (!ballSizeInterval) {
+                ballSizeInterval = setInterval(() => {
+                    player.radius += 1
+                },3000)
+            }
+        }
+
+        const checkEnemyOutOfScreen = () => {
+            if (enemy.x > screenWidth || enemy.x < 0) {
+                enemy.xSpeed *= -1;
+            }
+            if (enemy.y > screenHeight || enemy.y < 0) {
+                enemy.ySpeed *= -1;
+            }   
+        }
+
+        const addNewEnemy = () => {
+
+        }
+
+        const gameLoop = () => {
+            clearScreen();
+            drawEnemy();
+            drawPlayer();
+            increasePlayerSize();
+            checkEnemyOutOfScreen();
+            updateEnemyPosition();
+            checkForColision();
+        }
+
+        const endGame = () => {
+            clearInterval(gameLoopInterval);
+            clearScreen();
+            alert('You lost');
+        }
+
+        const startGame = () => {
+            gameLoopInterval = setInterval(() => {
+                gameLoop();
+            }, 1000/FPS);
+        }
+
+        startGame();
+
+    </script>
+</body>
+</html>
