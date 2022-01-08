@@ -37,20 +37,38 @@ export class Game {
         this.setupPlayer();
     }
 
-    setupGame = () => {
+    setupGame () {
         this.canvas.width = this.screenWidth;
         this.canvas.height = this.screenHeight;
     }
 
-    setupPlayer = () => {
-        this.player = new Player(this.context, 25, 'blue');
+    setupPlayer () {
+        this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
     }
 
-    gameLoop = () => {
-        console.log('oi')
+    drawPlayer () {
+
     }
 
-    start = () => {
+    gameLoop () {
+        this.clearScreen();
+        //addNewEnemy();
+        this.player.draw(this.player.x, this.player.y)
+        //increasePlayerSize();
+        //moveEnemy();
+        //increaseScore();
+    }
+
+    updatePlayerPosition (event: any) {
+        this.player.x = event.clientX;
+        this.player.y = event.clientY;
+    }
+
+    clearScreen () {
+        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+    }
+
+    start () {
         this.gameLoopInterval = setInterval(() => {
             this.gameLoop();
         }, 1000/this.FPS);

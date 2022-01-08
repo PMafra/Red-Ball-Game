@@ -2,11 +2,16 @@ import { Circle } from "./Circle";
 
 export class Player extends Circle {
 
-    constructor (context: any, radius:number, color:string) {
-        super({context, radius, color})
+    x: number;
+    y: number;
+
+    constructor (context: any, radius:number, color:string, x: number, y: number) {
+        super({context, radius, color});
+        this.x = x;
+        this.y = y;
     }
 
-    draw = (x: number, y: number) => {
-        this.draw(x, y);
+    draw(x: number, y: number){
+        super.draw(x, y);
     }
 }

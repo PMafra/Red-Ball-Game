@@ -7,7 +7,7 @@ const context = canvas.getContext('2d');
 const game = new Game(canvas, screenWidth, screenHeight, context);
 
 canvas.addEventListener('mousemove', (event) => {
-    //game.moveMouse(event)
+    game.updatePlayerPosition(event);
 })
-//game.start();
+game.start();
 

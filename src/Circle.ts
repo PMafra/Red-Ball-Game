@@ -10,7 +10,7 @@ export abstract class Circle {
         this.color = color;
     }
 
-    draw = (x: number,y: number) => {
+    draw(x: number,y: number) {
         this.context.beginPath();
         this.context.arc(x,y,this.radius,0,2*Math.PI, true);
         this.context.fillStyle = this.color;
