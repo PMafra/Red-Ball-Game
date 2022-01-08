@@ -1,3 +1,4 @@
+import { Enemy } from "./Enemy";
 import { Player } from "./Player";
 
 export class Game {
@@ -16,6 +17,7 @@ export class Game {
     FPS: number;
 
     player: Player;
+    enemies: Enemy[];
 
     constructor (canvas: any, screenWidth: number, screenHeight: number, context: any) {
         this.canvas = canvas;
@@ -32,9 +34,11 @@ export class Game {
         this.FPS = 60;
 
         this.player;
+        this.enemies;
 
         this.setupGame();
         this.setupPlayer();
+        this.setupFirstEnemy();
     }
 
     setupGame () {
@@ -45,9 +49,18 @@ export class Game {
     setupPlayer () {
         this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
     }
+    setupFirstEnemy () {
+        this.enemies = [new Enemy(this.context, 15, 'red', 10, 10, 5, 5)];
+    }
 
-    drawPlayer () {
-
+    moveEnemy () {
+        this.enemies.forEach((enemyInArr) => {
+            enemyInArr.draw(enemyInArr.x, enemyInArr.y);
+            enemyInArr.x += enemyInArr.xSpeed;
+            enemyInArr.y += enemyInArr.ySpeed;
+            //checkForColision(enemyInArr);
+            enemyInArr.checkEnemyOutOfScreen(this.screenWidth, this.screenHeight);
+        })
     }
 
     gameLoop () {
@@ -55,7 +68,7 @@ export class Game {
         //addNewEnemy();
         this.player.draw(this.player.x, this.player.y)
         //increasePlayerSize();
-        //moveEnemy();
+        this.moveEnemy();
         //increaseScore();
     }
 
