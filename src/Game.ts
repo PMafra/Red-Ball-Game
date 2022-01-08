@@ -92,13 +92,22 @@ export class Game {
         })
     }
 
+    increaseScore () {
+        if (!this.scoreInterval) {
+            this.scoreInterval = setInterval(() => {
+                this.score += 5;
+                document.querySelector('.score').innerHTML = String(this.score);
+            }, 3000)
+        }
+    }
+
     gameLoop () {
         this.clearScreen();
         //addNewEnemy();
         this.player.draw(this.player.x, this.player.y)
         //increasePlayerSize();
         this.moveEnemy();
-        //increaseScore();
+        this.increaseScore();
     }
 
     updatePlayerPosition (event: any) {
