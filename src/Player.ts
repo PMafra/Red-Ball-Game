@@ -14,4 +14,12 @@ export class Player extends Circle {
     draw(x: number, y: number){
         super.draw(x, y);
     }
+
+    increaseSize (ballSizeInterval: any) {
+        if (!ballSizeInterval) {
+            ballSizeInterval = setInterval(() => {
+                this.radius += 1
+            },3000)
+        }
+    }
 }

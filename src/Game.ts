@@ -101,11 +101,19 @@ export class Game {
         }
     }
 
+    increasePlayerSize () {
+        if (!this.ballSizeInterval) {
+            this.ballSizeInterval = setInterval(() => {
+                this.player.radius += 1
+            },3000)
+        }
+    }
+
     gameLoop () {
         this.clearScreen();
         //addNewEnemy();
         this.player.draw(this.player.x, this.player.y)
-        //increasePlayerSize();
+        this.increasePlayerSize();
         this.moveEnemy();
         this.increaseScore();
     }
