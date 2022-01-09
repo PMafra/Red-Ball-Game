@@ -6,7 +6,7 @@ export class Enemy extends Circle {
     ySpeed: number;
     
     constructor (context: any, radius:number, color:string, x: number, y: number, xSpeed: number, ySpeed: number) {
-        super({context, radius, color, x, y});
+        super(context, radius, color, x, y);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
