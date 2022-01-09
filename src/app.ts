@@ -10,4 +10,3 @@ canvas.addEventListener('mousemove', (event) => {
     game.updatePlayerPosition(event);
 })
 game.start();
-
