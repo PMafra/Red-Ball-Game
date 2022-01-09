@@ -3,13 +3,13 @@ import { Player } from "./Player";
 
 export class Game {
     
-    canvas: any;
+    canvas: HTMLCanvasElement;
     screenWidth: number;
     screenHeight: number;
-    context: any;
+    context: CanvasRenderingContext2D;
 
-    gameLoopInterval: any;
-    turnInterval: any;
+    gameLoopInterval: ReturnType<typeof setInterval> | string;
+    turnInterval: ReturnType<typeof setInterval> | string;
 
     score: number;
     FPS: number;
@@ -17,7 +17,7 @@ export class Game {
     player: Player;
     enemies: Enemy[];
 
-    constructor (canvas: any, screenWidth: number, screenHeight: number, context: any) {
+    constructor (canvas: HTMLCanvasElement, screenWidth: number, screenHeight: number, context: CanvasRenderingContext2D) {
         this.canvas = canvas;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -45,6 +45,7 @@ export class Game {
     private setupPlayer () {
         this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
     }
+
     private setupFirstEnemy () {
         this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
     }
@@ -58,8 +59,8 @@ export class Game {
     }
 
     end () {
-        clearInterval(this.gameLoopInterval);
-        clearInterval(this.turnInterval);
+        clearInterval(Number(this.gameLoopInterval));
+        clearInterval(Number(this.turnInterval));
         this.clearScreen();
         const isAgain = confirm(`You lost. \nScore: ${this.score} \nAgain?`);
         if (isAgain) {

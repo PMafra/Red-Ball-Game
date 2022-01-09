@@ -2,7 +2,7 @@ import { Circle } from "./Circle";
 
 export class Player extends Circle {
 
-    constructor (context: any, radius:number, color:string, x: number, y: number) {
+    constructor (context: CanvasRenderingContext2D, radius:number, color:string, x: number, y: number) {
         super(context, radius, color, x, y);
     }
 

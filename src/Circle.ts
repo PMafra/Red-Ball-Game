@@ -2,13 +2,13 @@ import { IDrawable } from "./IDrawable";
 
 export abstract class Circle implements IDrawable{
 
-    context: any;
+    context: CanvasRenderingContext2D;
     radius: number;
     color: string;
     x: number;
     y: number;
 
-    constructor (context: string, radius: number, color: string, x: number, y: number) {
+    constructor (context: CanvasRenderingContext2D, radius: number, color: string, x: number, y: number) {
         this.context = context;
         this.radius = radius;
         this.color = color;
