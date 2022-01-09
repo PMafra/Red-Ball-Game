@@ -1,7 +1,4 @@
 # Red-Ball
-
-Try it out now at https://projeto-14-my-wallet-front-blue.vercel.app/ <br>
-
 This is simply a Red Ball Game.
 
 <img width="350px" heigth="350px" src="./public/red-ball-game.gif" />
