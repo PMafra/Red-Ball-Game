@@ -1,0 +1,14 @@
+body {
+    background-color: black;
+    margin: 0;
+}
+.score {
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    right: 30px;
+    width: 100px;
+    height: 100px;
+    color: #ffffff;
+    font-size: 25px;
+}
