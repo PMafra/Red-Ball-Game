@@ -11,6 +11,6 @@ export class Player extends Circle {
     }
 
     increasePlayerSize () {
-        this.radius += 1;
+        this.radius += 3;
     }
 }

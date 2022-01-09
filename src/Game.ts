@@ -54,6 +54,7 @@ export class Game {
         this.turnInterval = '';
         this.score = 0;
         document.querySelector('.score').innerHTML = String(this.score);
+        this.setupPlayer();
         this.setupFirstEnemy();
         this.start();
     }
