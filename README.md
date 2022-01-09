@@ -25,7 +25,7 @@ mkdir Red-Ball
 ```
 2. Clone the repo
 ```
-git clone https://github.com/PMafra/MyWallet_front.git
+git clone https://github.com/PMafra/Red-Ball-Game.git
 ```
 3. Install NPM packages for the repo
 ```
