@@ -4,11 +4,11 @@ Try it out now at https://projeto-14-my-wallet-front-blue.vercel.app/ <br>
 
 This is simply a Red Ball Game.
 
-<img width="350px" heigth="350px" src="./MyWallet.gif" />
+<img width="350px" heigth="350px" src="./public/red-ball-game.gif" />
 
 ## About
 
-Basic game created with Canvas in order to learn and improve both my typescript and object-oriented programming knowledge
+Basic game created with Canvas in order to learn and improve both my typescript and object-oriented programming knowledge.
 
 ## Technologies and concepts
 <p>
