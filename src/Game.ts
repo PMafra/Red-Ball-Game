@@ -17,19 +17,6 @@ export class Game {
     player: Player;
     enemies: Enemy[];
 
-    private setupGame () {
-        this.canvas.width = this.screenWidth;
-        this.canvas.height = this.screenHeight;
-    }
-
-    private setupPlayer () {
-        this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
-    }
-
-    private setupFirstEnemy () {
-        this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
-    }
-
     constructor (canvas: HTMLCanvasElement, screenWidth: number, screenHeight: number, context: CanvasRenderingContext2D) {
         this.canvas = canvas;
         this.screenWidth = screenWidth;
@@ -48,6 +35,25 @@ export class Game {
         this.setupGame();
         this.setupPlayer();
         this.setupFirstEnemy();
+    }
+
+    updateScreenSize (width: number, heigth: number) {
+        this.screenWidth = width;
+        this.screenHeight = heigth;
+        this.setupGame();
+    }
+
+    private setupGame () {
+        this.canvas.width = this.screenWidth;
+        this.canvas.height = this.screenHeight;
+    }
+
+    private setupPlayer () {
+        this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
+    }
+
+    private setupFirstEnemy () {
+        this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
     }
 
     reset () {
@@ -112,7 +118,7 @@ export class Game {
     }
 
     clearScreen () {
-        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.context.clearRect(0,0,this.screenWidth,this.screenHeight);
     }
 
     gameLoop () {
