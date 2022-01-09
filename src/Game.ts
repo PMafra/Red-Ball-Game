@@ -17,6 +17,19 @@ export class Game {
     player: Player;
     enemies: Enemy[];
 
+    private setupGame () {
+        this.canvas.width = this.screenWidth;
+        this.canvas.height = this.screenHeight;
+    }
+
+    private setupPlayer () {
+        this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
+    }
+
+    private setupFirstEnemy () {
+        this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
+    }
+
     constructor (canvas: HTMLCanvasElement, screenWidth: number, screenHeight: number, context: CanvasRenderingContext2D) {
         this.canvas = canvas;
         this.screenWidth = screenWidth;
@@ -35,19 +48,6 @@ export class Game {
         this.setupGame();
         this.setupPlayer();
         this.setupFirstEnemy();
-    }
-
-    private setupGame () {
-        this.canvas.width = this.screenWidth;
-        this.canvas.height = this.screenHeight;
-    }
-
-    private setupPlayer () {
-        this.player = new Player(this.context, 25, 'blue', this.screenWidth/2, this.screenHeight/2);
-    }
-
-    private setupFirstEnemy () {
-        this.enemies = [new Enemy(this.context, 15, 'red', 0, 0, 5, 5)];
     }
 
     reset () {
@@ -91,6 +91,16 @@ export class Game {
         document.querySelector('.score').innerHTML = String(this.score);
     }
 
+    getRandomInt (max: number, min: number) {
+        const n = Math.ceil(Math.random() * max);
+        if (n < min) return min;
+        return n;
+    }
+
+    addNewEnemy () {
+        this.enemies.push(new Enemy(this.context, this.getRandomInt(20, 5), 'red', 0, 0, this.getRandomInt(5, 1), this.getRandomInt(5, 1)));
+    }
+
     turn () {
         if (!this.turnInterval) {
             this.turnInterval = setInterval(() => {
@@ -101,14 +111,8 @@ export class Game {
         }
     }
 
-    getRandomInt (max: number, min: number) {
-        const n = Math.ceil(Math.random() * max);
-        if (n < min) return min;
-        return n;
-    }
-
-    addNewEnemy () {
-        this.enemies.push(new Enemy(this.context, this.getRandomInt(20, 5), 'red', 0, 0, this.getRandomInt(5, 1), this.getRandomInt(5, 1)));
+    clearScreen () {
+        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 
     gameLoop () {
@@ -121,10 +125,6 @@ export class Game {
     updatePlayerPosition (event: any) {
         this.player.x = event.clientX;
         this.player.y = event.clientY;
-    }
-
-    clearScreen () {
-        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 
     start () {
